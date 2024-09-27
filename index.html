@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>givewayo</title>
+    <link rel="icon" href="lo.jpeg" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #21292c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* خلف جميع المحتويات */
+        }
+        .notification {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFD700;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            font-size: 1.2em;
+            display: none;
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 400px;
+        }
+        .button {
+            background-color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2em;
+            text-decoration: none; /* إزالة التسطير من الروابط */
+            color: black; /* لون النص */
+        }
+        .button img {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+        }
+        h1{
+            color: white;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="backgroundCanvas"></canvas>
+
+    <div class="notification" id="notification">
+        Congratulations! <span id="winner-name"></span> just won!
+    </div>
+
+    <div class="circle">
+        <img src="lo.jpeg" alt="Circle Image">
+    </div>
+    <h1>complet offers</h1>
+
+    <div class="button-container">
+        <a href="https://smrturl.co/5706e03" class="button">
+            <img src="logo.jpg" alt="Icon 1">
+            enter your email and get iphone16
+        </a>
+        <a href="https://smrturl.co/52a087a" class="button">
+            <img src="Paypal-logo.jpg" alt="Icon 2">
+            enter your email and get 700$
+        </a>
+        <a href="https://smrturl.co/bcc14b6" class="button">
+            <img src="taco.png" alt="Icon 3">
+            get a $100 Taco Bell Gift Card!
+        </a>
+    </div>
+
+    <script>
+        // أسماء عشوائية
+        const names = ["Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Hannah", "Ivy", "Jack"];
+        
+        function showNotification() {
+            const randomIndex = Math.floor(Math.random() * names.length);
+            const randomName = names[randomIndex];
+            
+            const notificationElement = document.getElementById('notification');
+            const winnerNameElement = document.getElementById('winner-name');
+            
+            winnerNameElement.textContent = randomName;
+            notificationElement.style.display = 'block';
+            
+            setTimeout(() => {
+                notificationElement.style.display = 'none';
+            }, 3000);
+        }
+        
+        setInterval(showNotification, 5000);
+
+        // إعداد التأثيرات الخلفية باستخدام canvas
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // خصائص الدائرة
+        let circle = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 50, // حجم الدائرة
+            dx: 4,      // السرعة الأفقية
+            dy: 4       // السرعة العمودية
+        };
+
+        // دالة رسم الدائرة
+        function drawCircle() {
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2, false);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // دالة تحديث موقع الدائرة
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح الشاشة
+
+            // رسم الدائرة
+            drawCircle();
+
+            // تغيير موقع الدائرة بناءً على dx و dy
+            circle.x += circle.dx;
+            circle.y += circle.dy;
+
+            // تحقق من الاصطدام بالحواف وتغيير الاتجاه
+            if(circle.x + circle.radius > canvas.width || circle.x - circle.radius < 0) {
+                circle.dx *= -1; // عكس الاتجاه الأفقي
+            }
+
+            if(circle.y + circle.radius > canvas.height || circle.y - circle.radius < 0) {
+                circle.dy *= -1; // عكس الاتجاه العمودي
+            }
+
+            requestAnimationFrame(update); // استمرار الحركة
+        }
+
+        update(); // بدء التحديث
+
+        // إعادة ضبط حجم canvas عند تغيير حجم النافذة
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            circle.x = canvas.width / 2;
+            circle.y = canvas.height / 2;
+        });
+    </script>
+
+</body>
+</html>
+
